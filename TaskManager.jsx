@@ -169,7 +169,7 @@ export default function TaskManager() {
         .tm-grid {
           display: grid;
           gap: 0.7rem;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
         input, textarea, select, button {
@@ -217,7 +217,12 @@ export default function TaskManager() {
           animation: tm-in 0.22s ease;
           transition: all 0.2s ease;
           background: var(--surface);
-          background: color-mix(in srgb, var(--surface) 90%, var(--accent) 10%);
+        }
+
+        @supports (background: color-mix(in srgb, var(--surface) 90%, var(--accent) 10%)) {
+          .tm-task {
+            background: color-mix(in srgb, var(--surface) 90%, var(--accent) 10%);
+          }
         }
 
         .tm-task.removing {
@@ -333,13 +338,22 @@ export default function TaskManager() {
           />
 
           <div className="tm-grid">
-            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              aria-label="Task priority"
+            >
               <option value="low">Low priority</option>
               <option value="medium">Medium priority</option>
               <option value="high">High priority</option>
             </select>
 
-            <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              aria-label="Due date"
+            />
 
             <button className="tm-add" type="submit">
               Add Task
@@ -348,13 +362,21 @@ export default function TaskManager() {
         </form>
 
         <div className="tm-filters">
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            aria-label="Filter by status"
+          >
             <option value="all">All statuses</option>
             <option value="active">Active</option>
             <option value="completed">Completed</option>
           </select>
 
-          <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
+          <select
+            value={priorityFilter}
+            onChange={(e) => setPriorityFilter(e.target.value)}
+            aria-label="Filter by priority"
+          >
             <option value="all">All priorities</option>
             <option value="high">High</option>
             <option value="medium">Medium</option>
@@ -408,7 +430,11 @@ export default function TaskManager() {
                     </div>
                   </div>
 
-                  <button className="tm-delete" onClick={() => deleteTask(task.id)} aria-label="Delete task">
+                  <button
+                    className="tm-delete"
+                    onClick={() => deleteTask(task.id)}
+                    aria-label={`Delete task: ${task.title}`}
+                  >
                     ×
                   </button>
                 </article>
