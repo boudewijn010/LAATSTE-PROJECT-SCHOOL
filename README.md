@@ -1,6 +1,6 @@
 # Task Manager
 
-This repository contains a single React task manager component in `/tmp/workspace/boudewijn010/LAATSTE-PROJECT-SCHOOL/TaskManager.jsx`.
+This repository contains a single React task manager component in `TaskManager.jsx`.
 
 ## Features
 
