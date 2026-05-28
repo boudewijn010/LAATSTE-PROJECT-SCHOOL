@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 const STORAGE_KEY = 'task-manager-items-v1';
+const DEFAULT_PRIORITY = 'medium';
+const REMOVE_ANIMATION_MS = 200;
 
 const priorityColors = {
   low: 'var(--low)',
@@ -32,7 +34,7 @@ export default function TaskManager() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('medium');
+  const [priority, setPriority] = useState(DEFAULT_PRIORITY);
   const [dueDate, setDueDate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
@@ -72,7 +74,7 @@ export default function TaskManager() {
     setTasks((prev) => [newTask, ...prev]);
     setTitle('');
     setDescription('');
-    setPriority('medium');
+    setPriority(DEFAULT_PRIORITY);
     setDueDate('');
   };
 
@@ -87,7 +89,7 @@ export default function TaskManager() {
     setTimeout(() => {
       setTasks((prev) => prev.filter((task) => task.id !== id));
       setRemovingTaskId(null);
-    }, 220);
+    }, REMOVE_ANIMATION_MS);
   };
 
   const today = getTodayKey();
@@ -214,6 +216,7 @@ export default function TaskManager() {
           align-items: start;
           animation: tm-in 0.22s ease;
           transition: all 0.2s ease;
+          background: var(--surface);
           background: color-mix(in srgb, var(--surface) 90%, var(--accent) 10%);
         }
 
@@ -390,9 +393,12 @@ export default function TaskManager() {
                     <div className="tm-meta">
                       <span
                         className="tm-badge priority"
-                        style={{ background: priorityColors[task.priority] || priorityColors.medium }}
+                        style={{
+                          background:
+                            priorityColors[task.priority] || priorityColors[DEFAULT_PRIORITY],
+                        }}
                       >
-                        {(task.priority || 'medium').toUpperCase()}
+                        {(task.priority || DEFAULT_PRIORITY).toUpperCase()}
                       </span>
                       {task.dueDate ? (
                         <span className={`tm-badge ${isOverdue ? 'overdue' : ''}`}>
